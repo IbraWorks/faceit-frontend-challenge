@@ -10,14 +10,13 @@ import {
   DELETE_TOURNAMENT_FAILURE,
   EDIT_TOURNAMENT,
   EDIT_TOURNAMENT_FAILURE,
-  UPDATE_SEARCH_TERM
+  GET_TOURNAMENT_BY_SEARCH_TERM
 } from '../models/tournament';
 
 const initialState: ITournamentState = {
   listOfTournaments: [],
   loading: true,
-  error: null,
-  searchTerm: ''
+  error: null
 };
 
 /// finish this
@@ -72,10 +71,11 @@ export const tournaments: Reducer<ITournamentState, TournamentActionTypes> = (
           }
         })
       };
-    case UPDATE_SEARCH_TERM:
+    case GET_TOURNAMENT_BY_SEARCH_TERM:
       return {
         ...state,
-        searchTerm: action.payload
+        loading: true,
+        error: null
       };
     default:
       return state;

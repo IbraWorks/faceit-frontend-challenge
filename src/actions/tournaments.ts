@@ -12,7 +12,7 @@ import {
   DELETE_TOURNAMENT_FAILURE,
   EDIT_TOURNAMENT,
   EDIT_TOURNAMENT_FAILURE,
-  UPDATE_SEARCH_TERM
+  GET_TOURNAMENT_BY_SEARCH_TERM
 } from '../models/tournament';
 import axios from 'axios';
 import { API_TOURNAMENTS_URL } from '../constants/api';
@@ -38,6 +38,30 @@ export const getAllTournaments: ActionCreator<ThunkAction<
       dispatch({
         type: GET_ALL_TOURNAMENT_FAILURE,
         payload: new Error('Something went wrong...')
+      });
+    }
+  };
+};
+
+export const updateSearchTearm = (searchTerm: string) => {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: GET_TOURNAMENT_BY_SEARCH_TERM
+    });
+
+    try {
+      const resp = await axios.get<ITournament[]>(
+        `${API_TOURNAMENTS_URL}?q=${searchTerm}`
+      );
+      dispatch({
+        type: GET_ALL_TOURNAMENT_SUCCESS,
+        payload: resp.data
+      });
+      console.log(resp);
+    } catch (error) {
+      dispatch({
+        type: GET_ALL_TOURNAMENT_FAILURE,
+        payload: new Error()
       });
     }
   };
@@ -104,14 +128,6 @@ export const createTournament = (tournamentName: string) => {
   };
 };
 
-export const updateSearchTearm = (
-  searchTerm: string
-): TournamentActionTypes => {
-  return {
-    type: UPDATE_SEARCH_TERM,
-    payload: searchTerm
-  };
-};
 /*
 catch (error) {
       dispatch({
