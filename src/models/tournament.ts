@@ -16,6 +16,7 @@ export interface ITournamentState {
   listOfTournaments: ITournament[];
   loading: boolean;
   error: Error | null;
+  searchTerm: string;
 }
 
 export const GET_ALL_TOURNAMENTS = 'REQUEST_TOURNAMENTS';
@@ -29,6 +30,8 @@ export const EDIT_TOURNAMENT_FAILURE = 'EDIT_TOURNAMENT_FAILURE';
 
 export const DELETE_TOURNAMENT = 'DELETE_TOURNAMENT';
 export const DELETE_TOURNAMENT_FAILURE = 'DELETE_TOURNAMENT_FAILURE';
+
+export const UPDATE_SEARCH_TERM = 'UPDATE_SEARCH_TERM';
 
 interface IGetAllTournaments {
   type: typeof GET_ALL_TOURNAMENTS;
@@ -78,6 +81,11 @@ interface IGetAllTournamentFailure {
   payload: Error;
 }
 
+interface IUpdateSearchTerm {
+  type: typeof UPDATE_SEARCH_TERM;
+  payload: string;
+}
+
 type GetTournament =
   | IGetAllTournaments
   | IGetAllTournamentFailure
@@ -91,4 +99,5 @@ export type TournamentActionTypes =
   | GetTournament
   | PostTournament
   | EditTournament
-  | DeleteTournament;
+  | DeleteTournament
+  | IUpdateSearchTerm;

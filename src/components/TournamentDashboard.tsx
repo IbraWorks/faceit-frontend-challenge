@@ -9,7 +9,8 @@ import {
   getAllTournaments,
   createTournament,
   deleteTournament,
-  editTournament
+  editTournament,
+  updateSearchTearm
 } from '../actions/tournaments';
 import { TournamentList } from './TournamentList';
 import Loading from './Loading';
@@ -19,17 +20,19 @@ interface StateProps {
   listOfTournaments: ITournament[];
   loading: boolean;
   errors: Error | null;
+  searchTerm: string;
 }
 
 const TournamentDashboard: React.FC = () => {
-  const { listOfTournaments, loading, errors } = useSelector<
+  const { listOfTournaments, loading, errors, searchTerm } = useSelector<
     RootState,
     StateProps
   >((store: RootState) => {
     return {
       listOfTournaments: store.tournaments.listOfTournaments,
       loading: store.tournaments.loading,
-      errors: store.tournaments.error
+      errors: store.tournaments.error,
+      searchTerm: store.tournaments.searchTerm
     };
   });
   const dispatch = useDispatch();
@@ -65,11 +68,19 @@ const TournamentDashboard: React.FC = () => {
     }
   };
 
+  const handleSearchChange = (e: any) => {
+    console.log(e.target.value);
+    stableDispatch(updateSearchTearm(e.target.value));
+  };
+
   return (
     <div>
       <H4>FACEIT Tournaments</H4>
-      <Input placeholder="Search for tournaments..." />
-      <Button onClick={createNewTournament} style={{ float: 'inline-end' }}>
+      <Input
+        onChange={handleSearchChange}
+        placeholder="Search for tournaments..."
+      />
+      <Button onClick={createNewTournament} style={{ float: 'right' }}>
         CREATE TOURNAMENT
       </Button>
 
@@ -83,7 +94,13 @@ const TournamentDashboard: React.FC = () => {
         <TournamentError handleRetry={retryGetAllTournaments} />
       ) : (
         <TournamentList
-          tournaments={listOfTournaments}
+          tournaments={
+            searchTerm == ''
+              ? listOfTournaments
+              : listOfTournaments.filter(t =>
+                  t.name.toLowerCase().includes(searchTerm)
+                )
+          }
           editTournament={editSelectedTournament}
           deleteTournament={deleteSelectedTournament}
         />

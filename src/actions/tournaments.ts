@@ -11,7 +11,8 @@ import {
   DELETE_TOURNAMENT,
   DELETE_TOURNAMENT_FAILURE,
   EDIT_TOURNAMENT,
-  EDIT_TOURNAMENT_FAILURE
+  EDIT_TOURNAMENT_FAILURE,
+  UPDATE_SEARCH_TERM
 } from '../models/tournament';
 import axios from 'axios';
 import { API_TOURNAMENTS_URL } from '../constants/api';
@@ -100,6 +101,15 @@ export const createTournament = (tournamentName: string) => {
         payload: resp.data
       });
     }
+  };
+};
+
+export const updateSearchTearm = (
+  searchTerm: string
+): TournamentActionTypes => {
+  return {
+    type: UPDATE_SEARCH_TERM,
+    payload: searchTerm
   };
 };
 /*
