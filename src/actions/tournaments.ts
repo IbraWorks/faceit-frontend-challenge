@@ -11,7 +11,6 @@ import {
   DELETE_TOURNAMENT,
   DELETE_TOURNAMENT_FAILURE,
   EDIT_TOURNAMENT,
-  EDIT_TOURNAMENT_FAILURE,
   GET_TOURNAMENT_BY_SEARCH_TERM
 } from '../models/tournament';
 import axios from 'axios';
@@ -23,8 +22,8 @@ export const getAllTournaments: ActionCreator<ThunkAction<
   null,
   TournamentActionTypes
 >> = () => {
+  console.log('in get all tourn');
   return async (dispatch: Dispatch) => {
-    console.log('in getalltourn action');
     dispatch({
       type: GET_ALL_TOURNAMENTS
     });

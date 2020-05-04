@@ -4,7 +4,7 @@ export interface ITournament {
   organizer: string;
   game: string;
   participants: IParticipants;
-  startDate: Date;
+  startDate: string;
 }
 
 interface IParticipants {
@@ -40,15 +40,6 @@ interface ICreateTournament {
   type: typeof CREATE_TOURNAMENT;
   payload: ITournament;
 }
-
-// interface ICreateTournamentSuccess {
-//   type: typeof CREATE_TOURNAMENT_SUCCESS
-// }
-
-// interface ICreateTournamentFailure {
-//   type: typeof CREATE_TOURNAMENT_FAILURE,
-//   payload: string
-// }
 
 interface IDeleteTournament {
   type: typeof DELETE_TOURNAMENT;

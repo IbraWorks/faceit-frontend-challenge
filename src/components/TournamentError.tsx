@@ -8,7 +8,7 @@ interface IProps {
 export const TournamentError: React.FC<IProps> = ({ handleRetry }) => {
   return (
     <div style={{ textAlign: 'center' }}>
-      <p>Something went wrong</p>
+      <p>Something went wrong.</p>
       <Button onClick={handleRetry}>RETRY</Button>
     </div>
   );

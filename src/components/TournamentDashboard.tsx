@@ -35,41 +35,47 @@ const TournamentDashboard: React.FC = () => {
     };
   });
   const dispatch = useDispatch();
-  const stableDispatch = useCallback(dispatch, []);
+  // const stableDispatch = useCallback(dispatch, []);
+
+  // useEffect(() => {
+  //   stableDispatch(getAllTournaments());
+  // }, [stableDispatch]);
+
+  const fetchTournament = useCallback(() => {
+    dispatch(getAllTournaments());
+  }, [dispatch]); //to make the linter shut up
 
   useEffect(() => {
-    stableDispatch(getAllTournaments());
-  }, [stableDispatch]);
-
-  const retryGetAllTournaments = () => {
-    dispatch(getAllTournaments());
-  };
+    fetchTournament();
+  }, [fetchTournament]);
 
   const editSelectedTournament = (tournament: ITournament) => {
-    const newName = prompt('New Tournament name', '');
+    const newName = prompt('New Tournament name:', '');
     if (newName) {
-      stableDispatch(editTournament(tournament, newName));
+      dispatch(editTournament(tournament, newName));
     }
   };
 
   const createNewTournament = () => {
-    let name = prompt('Tournament', '');
+    let name = prompt('Tournament Name:', '');
     if (name) {
-      stableDispatch(createTournament(name));
+      dispatch(createTournament(name));
     }
   };
 
   const deleteSelectedTournament = (tournament: ITournament) => {
-    let confirmation = window.confirm('Do you really want to delete this');
+    let confirmation = window.confirm(
+      'Do you really want to delete this tournament?'
+    );
     if (confirmation) {
-      stableDispatch(deleteTournament(tournament));
+      dispatch(deleteTournament(tournament));
     }
   };
 
   const handleSearchChange = simpleDebounce((searchTerm: string) => {
     console.log(searchTerm);
-    stableDispatch(updateSearchTearm(searchTerm));
-  }, 2000);
+    dispatch(updateSearchTearm(searchTerm));
+  }, 1500);
 
   return (
     <div>
@@ -77,7 +83,7 @@ const TournamentDashboard: React.FC = () => {
       <Input
         style={{ marginLeft: '12px' }}
         onChange={(e: any) => handleSearchChange(e.target.value)}
-        placeholder="Search for tournaments..."
+        placeholder="Search tournament ..."
       />
       <Button
         onClick={createNewTournament}
@@ -89,11 +95,11 @@ const TournamentDashboard: React.FC = () => {
       {loading ? (
         <div style={{ textAlign: 'center' }}>
           <Loading>
-            <p>Loading tournaments...</p>
+            <p>Loading tournaments ...</p>
           </Loading>
         </div>
       ) : errors ? (
-        <TournamentError handleRetry={retryGetAllTournaments} />
+        <TournamentError handleRetry={fetchTournament} />
       ) : (
         <TournamentList
           tournaments={listOfTournaments}
