@@ -73,12 +73,16 @@ const TournamentDashboard: React.FC = () => {
 
   return (
     <div>
-      <H4>FACEIT Tournaments</H4>
+      <H4 style={{ marginLeft: '12px' }}>FACEIT Tournaments</H4>
       <Input
+        style={{ marginLeft: '12px' }}
         onChange={(e: any) => handleSearchChange(e.target.value)}
         placeholder="Search for tournaments..."
       />
-      <Button onClick={createNewTournament} style={{ float: 'right' }}>
+      <Button
+        onClick={createNewTournament}
+        style={{ float: 'right', marginRight: '12px', marginTop: '-2px' }}
+      >
         CREATE TOURNAMENT
       </Button>
 
